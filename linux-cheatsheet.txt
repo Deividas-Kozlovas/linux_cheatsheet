@@ -1,0 +1,202 @@
+Linux Command Cheat Sheet for System Administration Tasks
+System Information
+Get system name:
+hostname
+
+Get system IP address:
+ip address
+
+Check kernel version:
+uname -r
+
+Get detailed system information:
+uname -a
+
+Check system uptime:
+uptime
+
+Get CPU information:
+lscpu
+
+Check available memory (RAM & SWAP):
+free -m
+
+List connected USB devices:
+lsusb
+
+Check disk usage:
+df -h
+
+Get current user's UID:
+id -u
+
+View last 5 system users:
+tail -n 5 /etc/passwd
+
+View last 5 groups added:
+tail -n 5 /etc/group
+
+List directories in /home:
+ls -d /home/*
+
+Check your current directory (where you are in the terminal):
+pwd
+------------------------------------------------------------
+User and Group Management
+Create a new user student with home directory and bash shell:
+sudo useradd -m -s /bin/bash student
+
+Assign student to sudo group (administrator group):
+sudo usermod -aG sudo student
+
+Switch to student user:
+su - student
+
+Check currently logged-in users:
+who
+
+Create a new group kitm:
+sudo groupadd kitm
+
+Create directory tree under student home:
+mkdir -p ~/Mokykla/Laisves33/{Java,Javascript,Php,.net}
+mkdir -p ~/Kestucio53/{Gimnazija,Biblioteka,sportas}
+
+Create files in the directories:
+touch ~/Mokykla/Laisves33/Java/file1.txt
+touch ~/Mokykla/Laisves33/Java/file2.txt
+touch ~/Mokykla/Laisves33/Javascript/java.sh
+touch ~/Mokykla/Laisves33/Php/index.html
+touch ~/Mokykla/Laisves33/.net/windows.ogg
+touch ~/Kestucio53/Gimnazija/file3.txt
+touch ~/Kestucio53/Biblioteka/file4.txt
+touch ~/Kestucio53/sportas/file5
+File Operations
+
+Fill file1.txt with content from /etc/passwd:
+cat /etc/passwd > ~/Mokykla/Laisves33/Java/file1.txt
+
+Fill file2.txt with content from /etc/group:
+cat /etc/group > ~/Mokykla/Laisves33/Java/file2.txt
+
+Fill file3.txt with content from /etc/fstab:
+cat /etc/fstab > ~/Kestucio53/Gimnazija/file3.txt
+
+Fill file4.txt with the first line from /etc/passwd:
+head -n 1 /etc/passwd > ~/Kestucio53/Biblioteka/file4.txt
+
+Fill file5 with the third-to-last line from /etc/passwd:
+tail -n 3 /etc/passwd | head -n 1 > ~/Kestucio53/sportas/file5
+
+Fill index.html with processes run by user user:
+ps -u user > ~/Mokykla/Laisves33/Php/index.html
+
+Clear the content of index.html:
+cat ~/Mokykla/Laisves33/Php/index.html > /dev/null
+
+Change group ownership of Mokykla directory to kitm:
+sudo chgrp -R kitm ~/Mokykla
+
+Give execute permission to java.sh:
+chmod +x ~/Mokykla/Laisves33/Java/java.sh
+
+Edit java.sh to include the command echo $USER:
+nano ~/Mokykla/Laisves33/Java/java.sh
+# Add the line: echo $USER
+
+Run the java.sh script:
+~/Mokykla/Laisves33/Java/java.sh
+------------------------------------------------------------
+Archiving and Compression
+Create a tarball archive of Mokykla directory:
+tar -czvf archyvas.tar.gz ~/Mokykla
+
+Add user user to kitm group:
+sudo usermod -aG kitm user
+
+Check the contents of the archive:
+tar -tzvf archyvas.tar.gz
+
+Extract the archive to the home directory:
+
+tar -xzvf archyvas.tar.gz -C ~
+
+List files with long format after extraction:
+ls -l ~/Mokykla
+File and Process Management
+
+Create a bin directory under user’s home:
+mkdir ~/bin
+
+Find the location of java.sh:
+find / -name "java.sh" 2>/dev/null
+
+Copy java.sh to the bin directory:
+cp ~/Mokykla/Laisves33/Java/java.sh ~/bin/
+
+Rename java.sh to sysinfo:
+mv ~/bin/java.sh ~/bin/sysinfo
+
+Edit sysinfo to display system info (like IP, hostname, memory, etc.):
+nano ~/bin/sysinfo
+# Add the script content as required
+
+Make sysinfo executable:
+chmod +x ~/bin/sysinfo
+
+Run the sysinfo script:
+sysinfo
+Control Script
+
+Create a control script in /home/user/bin:
+touch /home/user/bin/control
+nano /home/user/bin/control
+# Add script content as provided
+
+Make control executable:
+chmod +x /home/user/bin/control
+
+Run control in the background:
+/home/user/bin/control documents &
+/home/user/bin/control database &
+
+List background jobs:
+jobs
+
+Stop a specific job (e.g., control database):
+kill %2
+
+Check processes running under user user:
+ps -u user -f
+
+Stop all control processes:
+pkill control
+------------------------------------------------------------
+Apache Web Server
+Install Apache2 and curl:
+sudo apt install apache2 curl
+
+Check Apache2 service status:
+sudo systemctl status apache2
+
+Start Apache2 and enable it to start on boot:
+sudo systemctl start apache2
+sudo systemctl enable apache2
+
+Create a new directory for your website:
+sudo mkdir -p /var/www/web1
+
+Copy the index.html file to the web directory:
+sudo cp ~/Mokykla/Php/index.html /var/www/web1
+
+Edit /etc/hosts to add the new domain:
+sudo nano /etc/hosts
+# Add: 127.0.0.1 web1.com
+
+Configure Apache2 to serve the site web1.com:
+sudo nano /etc/apache2/sites-available/web1.conf
+# Add configuration for web1.com
+
+Check the website with curl:
+curl web1.com
+
